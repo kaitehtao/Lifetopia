@@ -1,0 +1,14 @@
+{
+  "name": "lifetopia-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Restored Lifetopia marketing website for Cloudflare Pages",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node check.mjs",
+    "package:cloudflare": "node package-cloudflare.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "devDependencies": { "jszip": "3.10.1" }
+}
