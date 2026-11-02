@@ -1,4 +1,5 @@
-import fs from 'node:fs';import path from 'node:path';
+import fs from 'node:fs';import {createHash} from 'node:crypto';import path from 'node:path';
+const styleVersion=createHash('sha256').update(fs.readFileSync('dist/restore.css')).digest('hex').slice(0,12);
 const products=[['Housing Management','Housing_management_system.html','housing.png'],['Room Condition','room_inventory_control.html','ric.png'],['Roommate Matching','roommate_self_selection.html','rmg.png'],['Off Campus Housing','Off_campus_housing.html','housesearch.png']];
 const pages=['index','Housing_management_system','room_inventory_control','roommate_self_selection','Off_campus_housing','about','webinar','contact'];
 const titles=['University Housing Solutions','Housing Management System','Room Inventory & Condition Reporting','Roommate Matching','Off Campus Housing','About Lifetopia','Webinars & Demonstrations','Contact Us'];
@@ -20,7 +21,7 @@ for(let i=0;i<pages.length;i++){const slug=pages[i];let main='';if(slug==='conta
  main=main.replace(/(<h5>\s*<a href=")contact.html/g,(_,prefix)=>prefix+destinations[n++]);
  }
 }
-let html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${titles[i]} | Lifetopia</title><meta name="description" content="Lifetopia mobile and web based housing solutions for colleges and universities: housing management, roommate matching, room condition reporting and off campus housing."><link rel="icon" href="images/logo.png"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="shortcodes.css"><link rel="stylesheet" href="skins/purple/style.css"><link rel="stylesheet" href="css/font-awesome.min.css"><link rel="stylesheet" href="restore.css"><script src="site.js" defer></script></head><body>${header(slug)}<main id="content" tabindex="-1">${main}${['index','about'].includes(slug)?partners:''}</main>${footer}</body></html>`;
+let html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${titles[i]} | Lifetopia</title><meta name="description" content="Lifetopia mobile and web based housing solutions for colleges and universities: housing management, roommate matching, room condition reporting and off campus housing."><link rel="icon" href="images/logo.png"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="shortcodes.css"><link rel="stylesheet" href="skins/purple/style.css"><link rel="stylesheet" href="css/font-awesome.min.css"><link rel="stylesheet" href="restore.css?v=${styleVersion}"><script src="site.js" defer></script></head><body>${header(slug)}<main id="content" tabindex="-1">${main}${['index','about'].includes(slug)?partners:''}</main>${footer}</body></html>`;
 fs.writeFileSync('dist/'+slug+'.html',html);
 // Preserve the original inbound URLs on static hosts without server execution.
 fs.writeFileSync('dist/'+slug+'.aspx',html);
